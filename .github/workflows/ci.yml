@@ -25,7 +25,7 @@ jobs:
   test-unit:
     name: Tests unitaires
     runs-on: ubuntu-latest
-    need: lint # lance seulement si lint passe
+    needs: lint # lance seulement si lint passe
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4 #clone le repo
@@ -50,7 +50,7 @@ jobs:
   test-integration:
     name: Tests intégration
     runs-on: ubuntu-latest
-    need: lint # lance seulement si lint passe
+    needs: lint # lance seulement si lint passe
     steps:
       - uses: actions/checkout@v4 #clone le repo
       - uses: actions/setup-node@v4 #installe Node.js
