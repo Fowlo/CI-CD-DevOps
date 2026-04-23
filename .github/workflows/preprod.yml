@@ -40,7 +40,7 @@ jobs:
       - name: Upload rapport de couverture
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-prod
+          name: coverage-report-preprod
           path: coverage/
           retention-days: 30
 
@@ -60,7 +60,7 @@ jobs:
 
       - name: Tests intégration
         run: npm run test
-        env : 
+        env: 
           NODE_ENV: test
 
   #Job4 : Build 
@@ -76,7 +76,7 @@ jobs:
           cache: 'npm'
       - name: installation des dépendances
         run: npm ci
-      - name: build de production
+      - name: build de pré-production
         run: npm run build --if-present
 
   #Job5 : Deploy
