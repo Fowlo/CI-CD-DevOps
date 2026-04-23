@@ -42,5 +42,4 @@ jobs:
     if: github.event_name == 'push' #déclenché seulement sur push / pas sur les PR
     steps:
       - name: Deployer vers render
-      - run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" 
-      - uses: actions/checkout@v4 #clone le repo
+        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
