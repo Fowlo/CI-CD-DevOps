@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ['main'] #déclenché sur push
+  pull_request:
+    branches: ['main'] #déclenché sur PR
+
+jobs:
+  #Job1 : lint
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 #clone le repo
+      - uses: actions/setup-node@v4 #installe Node.js
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run lint
+
+  #Job2 : Test
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    needs: lint # lance seulement si lint passe
+    steps:
+      - uses: actions/checkout@v4 #clone le repo
+      - uses: actions/setup-node@v4 #installe Node.js
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run test
+    
+  #Job3 : Deploy
+  Deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: test # lance seulement si test passe
+    if: github.event_name == 'push' #déclenché seulement sur push / pas sur les PR
+    steps:
+      - name: Deployer vers render
+      - run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}" 
+      - uses: actions/checkout@v4 #clone le repo
